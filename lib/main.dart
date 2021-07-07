@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart'; // used for date formatting
+import 'dart:ui';
 
 var _data;
 List _features = _data['features'];
@@ -12,6 +13,7 @@ void main() async {
 
   //print(_data['features'][0]['properties']);
   runApp(new MaterialApp(
+    debugShowCheckedModeBanner: false,
     title: "Quakes",
     home: new Quakes(),
   ));
@@ -27,8 +29,9 @@ class Quakes extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.red,
       ),
-      body: new Center(
-        child: new ListView.builder(
+      body: RefreshIndicator(
+        onRefresh: getQuakes,
+              child: new ListView.builder(
             itemCount: _features.length,
             padding: const EdgeInsets.all(15.0),
             itemBuilder: (BuildContext context, int position) {
@@ -77,7 +80,8 @@ class Quakes extends StatelessWidget {
                       "Place: ${_features[index]["properties"]['title']}");
                 },
               );
-            }),
+            },
+        ),
       ),
     );
   }
