@@ -31,56 +31,56 @@ class Quakes extends StatelessWidget {
       ),
       body: RefreshIndicator(
         onRefresh: getQuakes,
-              child: new ListView.builder(
-            itemCount: _features.length,
-            padding: const EdgeInsets.all(15.0),
-            itemBuilder: (BuildContext context, int position) {
-              if (position.isOdd) return new Divider();
-              final index = position ~/
-                  2; // we are dividing position by 2 and returning an integer result.
+        child: new ListView.builder(
+          itemCount: _features.length,
+          padding: const EdgeInsets.all(15.0),
+          itemBuilder: (BuildContext context, int position) {
+            if (position.isOdd) return new Divider();
+            final index = position ~/
+                2; // we are dividing position by 2 and returning an integer result.
 
-              var format = new DateFormat.yMMMMd("en_US")
-                  .add_jm(); // date and time format
-              var date = format.format(
-                DateTime.fromMillisecondsSinceEpoch(
-                    _features[index]['properties']['time'],
-                    isUtc: true),
-              );
+            var format =
+                new DateFormat.yMMMMd("en_US").add_jm(); // date and time format
+            var date = format.format(
+              DateTime.fromMillisecondsSinceEpoch(
+                  _features[index]['properties']['time'],
+                  isUtc: true),
+            );
 
-              return ListTile(
-                title: new Text(
-                  "At: $date",
-                  style: new TextStyle(
-                      fontSize: 15.5,
-                      color: Colors.orange,
-                      fontWeight: FontWeight.w500),
+            return ListTile(
+              title: new Text(
+                "At: $date",
+                style: new TextStyle(
+                    fontSize: 15.5,
+                    color: Colors.orange,
+                    fontWeight: FontWeight.w500),
+              ),
+              subtitle: new Text(
+                "${_features[index]['properties']['place']}",
+                style: new TextStyle(
+                  fontSize: 14.5,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.grey,
+                  fontStyle: FontStyle.italic,
                 ),
-                subtitle: new Text(
-                  "${_features[index]['properties']['place']}",
-                  style: new TextStyle(
-                    fontSize: 14.5,
-                    fontWeight: FontWeight.normal,
-                    color: Colors.grey,
-                    fontStyle: FontStyle.italic,
-                  ),
+              ),
+              leading: new CircleAvatar(
+                backgroundColor: Colors.green,
+                child: new Text(
+                  "${_features[index]['properties']['mag']}",
+                  style: TextStyle(
+                      fontSize: 16.5,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontStyle: FontStyle.normal),
                 ),
-                leading: new CircleAvatar(
-                  backgroundColor: Colors.green,
-                  child: new Text(
-                    "${_features[index]['properties']['mag']}",
-                    style: TextStyle(
-                        fontSize: 16.5,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                        fontStyle: FontStyle.normal),
-                  ),
-                ),
-                onTap: () {
-                  _showAlertMessage(context,
-                      "Place: ${_features[index]["properties"]['title']}");
-                },
-              );
-            },
+              ),
+              onTap: () {
+                _showAlertMessage(context,
+                    "Place: ${_features[index]["properties"]['title']}");
+              },
+            );
+          },
         ),
       ),
     );
